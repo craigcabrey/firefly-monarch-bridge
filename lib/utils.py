@@ -14,21 +14,12 @@ DEFAULT_CONFIG_PATH = os.path.expandvars(
 
 class MonarchStub:
 
-    CALL_MAP = {
-        'get_accounts': 'monarch_accounts',
-        'get_tags': 'monarch_tags',
-        'get_transactions': 'monarch_transactions',
-        'get_transaction_categories': 'monarch_categories',
-    }
-
     def __init__(self, monarch, **kwargs):
         self.monarch = monarch
         self.kwargs = kwargs
 
     async def stub(self, call):
-        return self.kwargs.get(
-            self.CALL_MAP.get(call)
-        ) or await getattr(self.monarch, call)()
+        return self.kwargs.get(call) or await getattr(self.monarch, call)()
 
     def __getattr__(self, value):
         return functools.partial(self.stub, call=value)

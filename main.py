@@ -53,10 +53,26 @@ def parse_args():
     monarch.add_argument('--monarch-session')
 
     # Debugging options
-    monarch.add_argument('--monarch-accounts', type=utils.config)
-    monarch.add_argument('--monarch-categories', type=utils.config)
-    monarch.add_argument('--monarch-tags', type=utils.config)
-    monarch.add_argument('--monarch-transactions', type=utils.config)
+    monarch.add_argument(
+        '--monarch-accounts',
+        dest='get_accounts',
+        type=utils.config,
+    )
+    monarch.add_argument(
+        '--monarch-categories',
+        dest='get_transaction_categories',
+        type=utils.config,
+    )
+    monarch.add_argument(
+        '--monarch-tags',
+        dest='get_tags',
+        type=utils.config,
+    )
+    monarch.add_argument(
+        '--monarch-transactions',
+        dest='get_transactions',
+        type=utils.config,
+    )
 
     return parser.parse_args()
 
