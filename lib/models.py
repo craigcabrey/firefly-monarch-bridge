@@ -314,6 +314,7 @@ class FireflyTransaction(FireflyObject):
 
     ENDPOINT = '/api/v1/transactions'
     MONARCH_API_SYMBOL = 'get_transactions'
+    MONARCH_UNPACK_KEY = 'transactions'
 
     class TransactionType(enum.Enum):
 

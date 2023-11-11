@@ -52,27 +52,12 @@ def parse_args():
     monarch = parser.add_argument_group()
     monarch.add_argument('--monarch-session')
 
-    # Debugging options
-    monarch.add_argument(
-        '--monarch-accounts',
-        dest='get_accounts',
-        type=utils.config,
-    )
-    monarch.add_argument(
-        '--monarch-categories',
-        dest='get_transaction_categories',
-        type=utils.config,
-    )
-    monarch.add_argument(
-        '--monarch-tags',
-        dest='get_tags',
-        type=utils.config,
-    )
-    monarch.add_argument(
-        '--monarch-transactions',
-        dest='get_transactions',
-        type=utils.config,
-    )
+    for type in models.ALL:
+        monarch.add_argument(
+            f'--monarch-{type.MONARCH_UNPACK_KEY}',
+            dest=type.MONARCH_API_SYMBOL,
+            type=utils.config,
+        )
 
     return parser.parse_args()
 
