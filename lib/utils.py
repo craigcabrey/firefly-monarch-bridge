@@ -5,10 +5,11 @@ import os
 
 import aiohttp
 import monarchmoney
+import xdg_base_dirs
 
 
-DEFAULT_CONFIG_PATH = os.path.expandvars(
-    '$HOME/.config/firefly-monarch-config.json',
+DEFAULT_CONFIG_PATH = str(
+    xdg_base_dirs.xdg_config_home() / 'firefly-monarch-config.json'
 )
 
 
