@@ -31,6 +31,7 @@ async def sync_instances(firefly, firefly_type, monarch):
 
 def parse_args():
     parser = argparse.ArgumentParser()
+    sync_types = [cls.__name__ for cls in models.ALL]
 
     parser.add_argument(
         '--config',
@@ -40,8 +41,9 @@ def parse_args():
     parser.add_argument('--dry-run', action='store_true')
     parser.add_argument(
         '--sync-types',
-        nargs='*',
-        choices=[cls.__name__ for cls in models.ALL],
+        nargs='+',
+        choices=sync_types,
+        default=sync_types,
     )
 
     firefly = parser.add_argument_group()
