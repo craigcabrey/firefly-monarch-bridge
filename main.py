@@ -34,7 +34,6 @@ def parse_args():
 
     parser.add_argument(
         '--config',
-        default=utils.DEFAULT_CONFIG_PATH,
         dest='global_config',
         type=utils.config,
     )

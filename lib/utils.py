@@ -30,8 +30,11 @@ def config(value=None):
     if not value:
         value = DEFAULT_CONFIG_PATH
 
-    with open(value, 'r') as f:
-        return json.load(f)
+    try:
+        with open(value, 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
 
 
 def load_clients(
@@ -49,8 +52,15 @@ def load_clients(
     firefly_host = firefly_host or global_config.get('firefly-host')
     firefly_token = firefly_token or global_config.get('firefly-token')
     monarch_session = monarch_session or global_config.get('monarch-session')
-
     monarch = monarchmoney.MonarchMoney(session_file=monarch_session)
+
+    if not all([firefly_host, firefly_token, monarch_session]):
+        raise ValueError(
+                'Missing config or values:\n'
+                f'\tfirefly_host: {firefly_host}\n'
+                f'\tfirefly_token: {firefly_token}\n'
+                f'\tmonarch_session: {monarch_session}'
+        )
 
     if kwargs:
         monarch = MonarchStub(monarch, **kwargs)
