@@ -8,7 +8,7 @@ import monarchmoney
 
 
 DEFAULT_CONFIG_PATH = os.path.expandvars(
-    '$HOME/.config/monarch-firefly-config.json',
+    '$HOME/.config/firefly-monarch-config.json',
 )
 
 
