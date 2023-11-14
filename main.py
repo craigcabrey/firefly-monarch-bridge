@@ -4,6 +4,7 @@
 import argparse
 import asyncio
 import json
+import logging
 import pprint
 import sys
 import typing
@@ -11,6 +12,15 @@ import typing
 
 from lib import models
 from lib import utils
+
+
+logger = logging.getLogger('firefly-monarch-bridge')
+logging.setLogRecordFactory(utils.LogRecord)
+logging.basicConfig(
+    format='[{asctime}] {levelname:<8} {source:<30} {message}',
+    level=logging.INFO,
+    style='{',
+)
 
 
 async def sync_instances(firefly, firefly_type, monarch):
@@ -38,6 +48,7 @@ def parse_args():
         dest='global_config',
         type=utils.config,
     )
+    parser.add_argument('--debug', action='store_true')
     parser.add_argument('--dry-run', action='store_true')
     parser.add_argument(
         '--sync-types',
@@ -65,7 +76,12 @@ def parse_args():
 
 async def main():
     args = parse_args()
+
+    if args.debug or args.dry_run:
+        logger.setLevel(logging.DEBUG)
+
     monarch, firefly = utils.load_clients(**vars(args))
+    logger.debug('Sync types: %s', args.sync_types)
 
     await monarch.login()
 

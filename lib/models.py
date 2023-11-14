@@ -5,10 +5,14 @@ import enum
 import functools
 import inspect
 import json
+import logging
 import os
 import pprint
 import sys
 import typing
+
+
+logger = logging.getLogger(f'firefly-monarch-bridge.{__name__}')
 
 
 class FireflyObject:
@@ -20,6 +24,7 @@ class FireflyObject:
 
     @classmethod
     async def all(cls, client):
+        logger.debug('Fetching all %s', cls.MONARCH_UNPACK_KEY)
         # TODO: probably respect pagination
         response = await client.get(cls.ENDPOINT, params={'limit': 100})
         data = await response.json()

@@ -1,5 +1,6 @@
 import functools
 import json
+import logging
 import os
 
 
@@ -8,9 +9,17 @@ import monarchmoney
 import xdg_base_dirs
 
 
+logger = logging.getLogger(f'firefly-monarch-bridge.{__name__}')
 DEFAULT_CONFIG_PATH = str(
     xdg_base_dirs.xdg_config_home() / 'firefly-monarch-config.json'
 )
+
+
+class LogRecord(logging.LogRecord):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.source = f'{self.module}.{self.funcName}:{self.lineno}'
 
 
 class MonarchStub:
@@ -48,6 +57,8 @@ def load_clients(
 ):
     if not global_config:
         global_config = config()
+
+    logger.debug('Loading clients')
 
     firefly_host = firefly_host or global_config.get('firefly-host')
     firefly_token = firefly_token or global_config.get('firefly-token')
